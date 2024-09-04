@@ -1,13 +1,199 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* General reset */
+:root {
+  --light-back-color: #F6F6F6;
+  --light-btn-color: white;
+  --light-titleback-color: #6D9886;
+  --light-editidown-color:#D9CAB3;
+  --light-head-color: #254336;
+
+  --dark-back-color: #1e1e1e;
+  --dark-btn-color: #ffffff;
+  --dark-titleback-color: #333333;
+  --dark-editidown-color: #2d2d2d;
+  --dark-head-color: white;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body.light, html.light, #root.light {
+  --back-color: var(--light-back-color);
+  --btn-color: var(--light-btn-color);
+  --titleback-color: var(--light-titleback-color);
+  --editidown-color: var(--light-editidown-color);
+  --head-color: var(--light-head-color);
+}
+
+body.dark, html.dark, #root.dark {
+  --back-color: var(--dark-back-color);
+  --btn-color: var(--dark-btn-color);
+  --titleback-color: var(--dark-titleback-color);
+  --editidown-color: var(--dark-editidown-color);
+  --head-color: var(--dark-head-color);
+}
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header with centered toggle slider */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--back-color);
+  color: var( --head-color);
+  position: relative;
+}
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blinkCursor {
+  0% { border-right-color: rgba(255, 255, 255, 0.75); }
+  50% { border-right-color: transparent; }
+  100% { border-right-color: rgba(255, 255, 255, 0.75); }
+}
+
+@keyframes fadeOutCursor {
+  from { border-right-color: rgba(255, 255, 255, 0.75); }
+  to { border-right-color: transparent; }
+}
+
+/* Style for the h1 element */
+.header h1 {
+  align-items: center;
+  position: relative;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace; /* Typewriter-like font */
+  white-space: nowrap; /* Prevents wrapping of text */
+  overflow: hidden; /* Hides the overflowing text */
+  border-right: 3px solid; /* Cursor effect */
+  width: 0; /* Initially hide the text */
+  animation: 
+    typewriter 1.5s steps(14) 0.5s forwards, /* Smooth and fast typewriting effect */
+    blinkCursor 0.75s steps(14) 2s infinite, /* Blinking cursor effect */
+    fadeOutCursor 0.5s ease-out 4s forwards; /* Fade out cursor after animation */
+}
+
+
+
+
+.theme-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+/* Toggle slider */
+.theme-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-toggle .slider {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle .slider::before {
+  content: "";
+  position: absolute;
+  height: 21px;
+  width: 21px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #B7B597;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider::before {
+  transform: translateX(25px);
+  
+}
+
+/* Container for the entire editor and output */
+.editor {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  width: 100%;
+  background-color: var(--back-color);
+}
+
+/* Code editor section styling */
+.codeeditor-container {
+  flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+  border-radius: 5px;
+}
+
+.codeeditor-container.collapsed {
+  flex-grow: 0;
+}
+
+.codeeditor-container.collapsed.CodeMirror-scroll {
+  position: absolute;
+}
+
+.expand-collapse-btn {
+  margin-left: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--btn-color);
+  cursor: pointer;
+}
+
+.expand-collapse-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Title section of each editor (HTML, CSS, JS) */
+.codeeditor-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--titleback-color);
+  color: #f0f5f5;
+  font-size: 14px;
+}
+
+.codeeditor-title:hover {
+  transform: scale(1.02);
+}
+
+/* Style for CodeMirror editor wrapper */
+.code-mirror-wrapper {
+  flex: 1;
+  background-color: var(--editidown-color);
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Output iframe container */
+.below.display {
+  height: 50%;
+  background-color: #f4f4f4;
+  border-top: 1px solid #ccc;
 }
